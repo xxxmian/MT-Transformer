@@ -6,7 +6,7 @@ import math
 
 class Norm(nn.Module):
     def __init__(self, d_model, eps=1e-6):
-        super().__init__()
+        super(Norm,self).__init__()
 
         self.size = d_model
 
@@ -39,7 +39,7 @@ def attention(q, k, v, d_k, mask=None, dropout=None):
 
 class MultiHeadAttention(nn.Module):
     def __init__(self, heads, d_model, dropout=0.1):
-        super().__init__()
+        super(MultiHeadAttention,self).__init__()
 
         self.d_model = d_model
         self.d_k = d_model // heads
@@ -77,7 +77,7 @@ class MultiHeadAttention(nn.Module):
 
 class FeedForward(nn.Module):
     def __init__(self, d_model, d_ff=2048, dropout=0.1):
-        super().__init__()
+        super(FeedForward,self).__init__()
 
         # We set d_ff as a default to 2048
         self.linear_1 = nn.Linear(d_model, d_ff)

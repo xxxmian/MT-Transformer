@@ -4,17 +4,19 @@ import torch
 from model import get_model
 from data_gen import read_data, create_masks
 from config import Lang, learning_rate, epochs, device
-
+import json
 import torch.nn.functional as F
 
 def train(model):
     model.train()
     start = time.time()
+    draw_loss=[]
+    train_data = read_data('train')
     for epoch in range(epochs):
         total_loss = 0
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.98), eps=1e-9)
-        train_data = read_data('train')
-
+        
+        count_loss = 0
         for i, (src, lengths, trg, max_target_len) in enumerate(train_data):
             src = src.transpose(0, 1).to(device)
             trg = trg.transpose(0, 1).to(device)
@@ -29,20 +31,26 @@ def train(model):
             optimizer.step()
             total_loss += loss.detach().item()
 
-            if (i + 1) % 1 == 0:
+            if (i + 1) % 100 == 0:
                 p = int(100 * (i + 1) / len(train_data))
                 avg_loss = total_loss / 100
-
+                #draw_loss.append(avg_loss)
                 print("   %dm: epoch %d [%s%s]  %d%%  loss = %.3f" % \
                       ((time.time() - start) // 60, epoch + 1, "".join('#' * (p // 5)),
-                       "".join(' ' * (20 - (p // 5))), p, avg_loss), end='\r')
-
+                       "".join(' ' * (20 - (p // 5))), p, avg_loss))
+                count_loss+=avg_loss
                 total_loss = 0
-
+        draw_loss.append(count_loss/(i/100))
         print("%dm: epoch %d [%s%s]  %d%%  loss = %.3f\nepoch %d complete, loss = %.03f" % \
               ((time.time() - start) // 60, epoch + 1, "".join('#' * (100 // 5)), "".join(' ' * (20 - (100 // 5))), 100,
                avg_loss, epoch + 1, avg_loss))
-
+    print(len(draw_loss))
+    '''
+    with open('draw_loss.json','w') as f:
+        json.dump(draw_loss,f)
+    torch.save(model.state_dict(),'params.pkl')
+    '''
+    
 def main():
     input_lang = Lang('data/wordmap_en.json')
     output_lang = Lang('data/wordmap_zh.json')

@@ -13,7 +13,7 @@ def get_clones(module, N):
 
 class Encoder(nn.Module):
     def __init__(self, vocab_size, hidden_size, N, heads, dropout):
-        super().__init__()
+        super(Encoder,self).__init__()
         self.N = N
         self.embed = Embedder(vocab_size, hidden_size)
         self.pe = PositionalEncoder(hidden_size, dropout=dropout)
@@ -30,7 +30,7 @@ class Encoder(nn.Module):
 
 class Decoder(nn.Module):
     def __init__(self, vocab_size, d_model, N, heads, dropout):
-        super().__init__()
+        super(Decoder,self).__init__()
         self.N = N
         self.embed = Embedder(vocab_size, d_model)
         self.pe = PositionalEncoder(d_model, dropout=dropout)
@@ -47,7 +47,7 @@ class Decoder(nn.Module):
 
 class Transformer(nn.Module):
     def __init__(self, src_vocab_size, trg_vocab_size, d_model, N, heads, dropout):
-        super().__init__()
+        super(Transformer,self).__init__()
         self.encoder = Encoder(src_vocab_size, d_model, N, heads, dropout)
         self.decoder = Decoder(trg_vocab_size, d_model, N, heads, dropout)
         self.out = nn.Linear(d_model, trg_vocab_size)

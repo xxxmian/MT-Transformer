@@ -4,7 +4,7 @@ from sublayer import FeedForward, MultiHeadAttention, Norm
 
 class EncoderLayer(nn.Module):
     def __init__(self, d_model, heads, dropout=0.1):
-        super().__init__()
+        super(EncoderLayer,self).__init__()
         self.norm_1 = Norm(d_model)
         self.norm_2 = Norm(d_model)
         self.attn = MultiHeadAttention(heads, d_model, dropout=dropout)
@@ -26,7 +26,7 @@ class EncoderLayer(nn.Module):
 # one feed-forward layer
 class DecoderLayer(nn.Module):
     def __init__(self, d_model, heads, dropout=0.1):
-        super().__init__()
+        super(DecoderLayer,self).__init__()
         self.norm_1 = Norm(d_model)
         self.norm_2 = Norm(d_model)
         self.norm_3 = Norm(d_model)

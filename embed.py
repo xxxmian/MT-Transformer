@@ -6,7 +6,7 @@ from torch.autograd import Variable
 
 class Embedder(nn.Module):
     def __init__(self, vocab_size, d_model):
-        super().__init__()
+        super(Embedder,self).__init__()
         self.d_model = d_model
         self.embed = nn.Embedding(vocab_size, d_model)
 
@@ -16,7 +16,7 @@ class Embedder(nn.Module):
 
 class PositionalEncoder(nn.Module):
     def __init__(self, d_model, max_seq_len=200, dropout=0.1):
-        super().__init__()
+        super(PositionalEncoder,self).__init__()
         self.d_model = d_model
         self.dropout = nn.Dropout(dropout)
         # create constant 'pe' matrix with values dependant on

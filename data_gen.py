@@ -11,7 +11,7 @@ from torch.autograd import Variable
 
 
 def zeroPadding(l, fillvalue=PAD_token):
-    return list(itertools.zip_longest(*l, fillvalue=fillvalue))
+    return list(itertools.izip_longest(*l, fillvalue=fillvalue))
 def binaryMatrix(l):
     m = []
     for i, seq in enumerate(l):
