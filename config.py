@@ -23,7 +23,7 @@ output_lang_vocab_size = 5000
 model_name = 'cb_model'
 attn_model = 'general'
 start_epoch = 0
-epochs = 50
+epochs = 200
 hidden_size = 100
 n_layers = 6
 heads = 10
@@ -31,7 +31,7 @@ dropout = 0.05
 batch_size = 10
 train_split = 0.9
 
-raw_data_path = './cmn.txt'
+raw_data_path = 'data/cmn.txt'
 train_folder = 'data/train'
 valid_folder = 'data/validation'
 test_folder = 'data/test'

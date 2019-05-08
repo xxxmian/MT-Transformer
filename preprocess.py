@@ -31,16 +31,16 @@ def pre_process():
     for i in range(len(b)):
         en.append(b[i][0])
         zh.append(b[i][1])
-    with open('english.json','w') as f:
+    with open('data/english.json','w') as f:
         json.dump(en, f)
-    with open('chinese.json','w') as f:
+    with open('data/chinese.json','w') as f:
         json.dump(zh, f)
 
 
 def encode_text(word_map, c):
     return [word_map.get(word, word_map['<unk>']) for word in c] + [word_map['<end>']]
 def build_wordmap_zh():
-    zh_path = 'chinese.json'
+    zh_path = 'data/chinese.json'
 
     with open(zh_path, 'r') as f:
         zh = json.load(f)
@@ -67,7 +67,7 @@ def build_wordmap_zh():
         json.dump(word_map, file, indent=4)
 
 def build_wordmap_en():
-    en_path = 'english.json'
+    en_path = 'data/english.json'
 
     with open(en_path, 'r') as f:
         sentences = json.load(f)
@@ -115,8 +115,8 @@ def build_samples():
     word_map_zh = json.load(open('data/wordmap_zh.json', 'r'))
     word_map_en = json.load(open('data/wordmap_en.json', 'r'))
 
-    translation_path_en = 'english.json'
-    translation_path_zh = 'chinese.json'
+    translation_path_en = 'data/english.json'
+    translation_path_zh = 'data/chinese.json'
 
     with open(translation_path_en, 'r') as f:
         data_en = json.load(f)

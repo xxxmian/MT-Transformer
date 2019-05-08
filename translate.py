@@ -5,7 +5,7 @@ from model import get_model
 from beam import beam_search
 import torch.nn.functional as F
 
-from data_gen import create_masks
+
 import pdb
 
 import argparse
@@ -13,6 +13,7 @@ from config import *
 from nltk.corpus import wordnet
 from torch.autograd import Variable
 import re
+from data_gen import read_data, create_masks
 
 
 def get_synonym(word):
@@ -87,6 +88,21 @@ def main():
     print("output_lang.n_words: " + str(output_lang.n_words))
     model = get_model(input_lang.n_words, output_lang.n_words)
     model.load_state_dict(torch.load('params.pkl'))
+
+    valid_data = read_data('valid')
+    model.eval()
+    for i, (src, lengths, trg, max_target_len) in enumerate(valid_data):
+        src = src.transpose(0, 1).to(device)
+        trg = trg.transpose(0, 1).to(device)
+        trg_input = trg[:, :-1]
+    
+        src_mask, trg_mask = create_masks(src, trg_input)
+        pred = model(src, trg_input, src_mask, trg_mask)
+        ys = trg[:, 1:].contiguous().view(-1)
+        
+        
+       
+
     while True:
         opt.text = 'I hope so.Call me.'
         '''
